@@ -1,2 +1,2 @@
-# planejamento-semanal
-Pagina para planejar as horas a ser gastas na semana.
+# Planejamento Semanal
+Página para planejar as horas a serem gastas na semana.
