@@ -1,0 +1,218 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Dados globais */
+div#corpo-da-pagina {
+    width: 1200px;
+}
+
+h1 {
+    font-size: 25pt;
+}
+
+h2 {
+    font-size: 28pt;
+}
+
+h3 {
+    font-size: 16pt;
+}
+
+h4,
+h5,
+h6 {
+    font-size: 13pt;
+}
+
+/* Editor de dados */
+
+div#editar-valor {
+    position: fixed;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+section.editor {
+    background-color: rgb(255, 255, 182);
+    width: 450px;
+    height: 350px;
+    padding: 10px;
+}
+
+section.editor div.fechar-editor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: right;
+    text-transform: uppercase;
+    font-weight: bolder;
+    background-color: crimson;
+    color: white;
+    font-size: 10pt;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+section.editor div.fechar-editor:hover {
+    background-color: rgb(247, 40, 81);
+}
+
+section.editor h1 {
+    text-transform: uppercase;
+    font-size: 20pt;
+    text-align: center;
+    margin-left: 20px;
+}
+
+form {
+    text-align: center;
+    padding: 10px 0;
+}
+
+textarea#conteudo {
+    width: 100%;
+    height: 20%;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    margin: 10px 0;
+    padding: 5px;
+    font-size: 10pt;
+}
+
+form button {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    padding: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: rgb(35, 61, 63);
+    color: white;
+}
+
+form button:hover {
+    background-color: rgb(59, 104, 107);
+}
+
+/* Dados do projeto */
+.fundo-amarelo-claro {
+    background-color: rgb(255, 255, 182);
+}
+
+.fundo-azul-claro {
+    background-color: rgb(178, 227, 255);
+}
+
+.dias div,
+.intervalo-hora div,
+.total-periodo-dia div,
+#total-por-dia div {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    width: calc(100% / 7);
+    text-align: center;
+}
+
+#conteudo-principal {
+    width: 100%;
+    border: 2px solid rgb(35, 61, 63);
+}
+
+#titulo-principal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    background-color: rgb(35, 61, 63);
+    color: yellow;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.dias {
+    display: flex;
+    text-transform: uppercase;
+    font-size: 11pt;
+    font-weight: 600;
+}
+
+.periodo div {
+    padding-top: 5px;
+    background-color: rgb(35, 61, 63);
+    color: yellow;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.intervalo-hora {
+    display: flex;
+    background-color: rgb(27, 113, 241);
+    color: white;
+    font-size: 10pt;
+}
+
+.texto-nota {
+    display: flex;
+}
+
+.texto-nota div {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    width: calc(100% / 7);
+    height: 134px;
+    padding: 5px;
+    font-weight: 600;
+    font-style: italic;
+    cursor: pointer;
+    font-size: 9pt;
+}
+
+.total-periodo-dia {
+    display: flex;
+    background-color: yellow;
+    font-size: 10pt;
+}
+
+#total-por-dia {
+    display: flex;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    font-weight: 600;
+    font-size: 12pt;
+}
+
+#total-horas {
+    display: flex;
+    align-items: center;
+    height: 25px;
+    background-color: rgb(35, 61, 63);
+    color: yellow;
+    font-size: 13pt;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+#total-horas div:first-child {
+    text-align: start;
+    padding-left: 10px;
+    width: 100%;
+}
+
+#total-horas div:last-child {
+    width: calc(100% / 7 + 2.5%);
+    text-align: center;
+}

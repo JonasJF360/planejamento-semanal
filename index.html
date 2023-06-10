@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Planejamento Semanal</title>
+</head>
+
+<body>
+    <div id="editar-valor">
+        <section class="editor">
+            <div class="fechar-editor">x</div>
+            <h1>Dia selecionado</h1>
+            <form action="">
+                <label>Início:</label>
+                <input type="time" min="06:00" max="00:00" step="3600" min="00:00" max="23:59"
+                    pattern="[0-2][0-9]:[0-5][0-9]" value="06:00" id="inicio">
+                <label>Fim:</label>
+                <input type="time" step="3600" min="00:00" max="23:59" pattern="[0-2][0-9]:[0-5][0-9]" value="07:00"
+                    id="fim">
+                <textarea id="conteudo" cols="55" rows="12"></textarea>
+                <button>Aplicar</button>
+            </form>
+        </section>
+    </div>
+
+    <div id="corpo-da-pagina">
+        <section id="conteudo-principal">
+            <header>
+                <div id="titulo-principal">
+                    <div>Planilha de Planejamento Semanal</div>
+                </div>
+                <div class=" dias">
+                    <div class="fundo-amarelo-claro">Domingo</div>
+                    <div class="fundo-azul-claro">Segunda</div>
+                    <div class="fundo-amarelo-claro">Terça</div>
+                    <div class="fundo-azul-claro">Quarta</div>
+                    <div class="fundo-amarelo-claro">Quinta</div>
+                    <div class="fundo-azul-claro">Sexta</div>
+                    <div class="fundo-amarelo-claro">Sábado</div>
+                </div>
+            </header>
+
+            <section>
+                <div class="periodo">
+                    <div>Período da Manha</div>
+                </div>
+                <div class=" intervalo-hora">
+                    <div id="inicio_manha_01">00:00</div>
+                    <div id="fim_manha_01">00:00</div>
+                    <div id="inicio_manha_02">00:00</div>
+                    <div id="fim_manha_02">00:00</div>
+                    <div id="inicio_manha_03">00:00</div>
+                    <div id="fim_manha_03">00:00</div>
+                    <div id="inicio_manha_04">00:00</div>
+                    <div id="fim_manha_04">00:00</div>
+                    <div id="inicio_manha_05">00:00</div>
+                    <div id="fim_manha_05">00:00</div>
+                    <div id="inicio_manha_06">00:00</div>
+                    <div id="fim_manha_06">00:00</div>
+                    <div id="inicio_manha_07">00:00</div>
+                    <div id="fim_manha_07">00:00</div>
+                </div>
+                <div class="texto-nota">
+                    <div id="texto_manha_01" class="fundo-amarelo-claro"></div>
+                    <div id="texto_manha_02" class="fundo-azul-claro"></div>
+                    <div id="texto_manha_03" class="fundo-amarelo-claro"></div>
+                    <div id="texto_manha_04" class="fundo-azul-claro"></div>
+                    <div id="texto_manha_05" class="fundo-amarelo-claro"></div>
+                    <div id="texto_manha_06" class="fundo-azul-claro"></div>
+                    <div id="texto_manha_07" class="fundo-amarelo-claro"></div>
+                </div>
+                <div class="total-periodo-dia">
+                    <div id="total_manha_01">00:00</div>
+                    <div id="total_manha_02">00:00</div>
+                    <div id="total_manha_03">00:00</div>
+                    <div id="total_manha_04">00:00</div>
+                    <div id="total_manha_05">00:00</div>
+                    <div id="total_manha_06">00:00</div>
+                    <div id="total_manha_07">00:00</div>
+                </div>
+
+                <div class="periodo">
+                    <div>Período da Tarde</div>
+                </div>
+                <div class=" intervalo-hora">
+                    <div id="inicio_tarde_01">00:00</div>
+                    <div id="fim_tarde_01">00:00</div>
+                    <div id="inicio_tarde_02">00:00</div>
+                    <div id="fim_tarde_02">00:00</div>
+                    <div id="inicio_tarde_03">00:00</div>
+                    <div id="fim_tarde_03">00:00</div>
+                    <div id="inicio_tarde_04">00:00</div>
+                    <div id="fim_tarde_04">00:00</div>
+                    <div id="inicio_tarde_05">00:00</div>
+                    <div id="fim_tarde_05">00:00</div>
+                    <div id="inicio_tarde_06">00:00</div>
+                    <div id="fim_tarde_06">00:00</div>
+                    <div id="inicio_tarde_07">00:00</div>
+                    <div id="fim_tarde_07">00:00</div>
+                </div>
+                <div class="texto-nota">
+                    <div id="texto_tarde_01" class="fundo-amarelo-claro"></div>
+                    <div id="texto_tarde_02" class="fundo-azul-claro"></div>
+                    <div id="texto_tarde_03" class="fundo-amarelo-claro"></div>
+                    <div id="texto_tarde_04" class="fundo-azul-claro"></div>
+                    <div id="texto_tarde_05" class="fundo-amarelo-claro"></div>
+                    <div id="texto_tarde_06" class="fundo-azul-claro"></div>
+                    <div id="texto_tarde_07" class="fundo-amarelo-claro"></div>
+                </div>
+                <div class="total-periodo-dia">
+                    <div id="total_tarde_01">00:00</div>
+                    <div id="total_tarde_02">00:00</div>
+                    <div id="total_tarde_03">00:00</div>
+                    <div id="total_tarde_04">00:00</div>
+                    <div id="total_tarde_05">00:00</div>
+                    <div id="total_tarde_06">00:00</div>
+                    <div id="total_tarde_07">00:00</div>
+                </div>
+
+                <div class="periodo">
+                    <div>Período da Noite</div>
+                </div>
+                <div class="intervalo-hora">
+                    <div id="inicio_noite_01">00:00</div>
+                    <div id="fim_noite_01">00:00</div>
+                    <div id="inicio_noite_02">00:00</div>
+                    <div id="fim_noite_02">00:00</div>
+                    <div id="inicio_noite_03">00:00</div>
+                    <div id="fim_noite_03">00:00</div>
+                    <div id="inicio_noite_04">00:00</div>
+                    <div id="fim_noite_04">00:00</div>
+                    <div id="inicio_noite_05">00:00</div>
+                    <div id="fim_noite_05">00:00</div>
+                    <div id="inicio_noite_06">00:00</div>
+                    <div id="fim_noite_06">00:00</div>
+                    <div id="inicio_noite_07">00:00</div>
+                    <div id="fim_noite_07">00:00</div>
+                </div>
+                <div class="texto-nota">
+                    <div id="texto_noite_01" class="fundo-amarelo-claro"></div>
+                    <div id="texto_noite_02" class="fundo-azul-claro"></div>
+                    <div id="texto_noite_03" class="fundo-amarelo-claro"></div>
+                    <div id="texto_noite_04" class="fundo-azul-claro"></div>
+                    <div id="texto_noite_05" class="fundo-amarelo-claro"></div>
+                    <div id="texto_noite_06" class="fundo-azul-claro"></div>
+                    <div id="texto_noite_07" class="fundo-amarelo-claro"></div>
+                </div>
+                <div class="total-periodo-dia">
+                    <div id="total_noite_01">00:00</div>
+                    <div id="total_noite_02">00:00</div>
+                    <div id="total_noite_03">00:00</div>
+                    <div id="total_noite_04">00:00</div>
+                    <div id="total_noite_05">00:00</div>
+                    <div id="total_noite_06">00:00</div>
+                    <div id="total_noite_07">00:00</div>
+                </div>
+            </section>
+
+            <footer>
+                <div id="total-por-dia">
+                    <div id="total_dia_01" class="fundo-amarelo-claro">00:00</div>
+                    <div id="total_dia_02" class="fundo-azul-claro">00:00</div>
+                    <div id="total_dia_03" class="fundo-amarelo-claro">00:00</div>
+                    <div id="total_dia_04" class="fundo-azul-claro">00:00</div>
+                    <div id="total_dia_05" class="fundo-amarelo-claro">00:00</div>
+                    <div id="total_dia_06" class="fundo-azul-claro">00:00</div>
+                    <div id="total_dia_07" class="fundo-amarelo-claro">00:00</div>
+                </div>
+                <div id="total-horas">
+                    <div>Total de horas na semana</div>
+                    <div id="total_da_semana">00:00</div>
+                </div>
+            </footer>
+        </section>
+    </div>
+
+    <script src="./assets/js/script.js" defer></script>
+</body>
+
+</html>
