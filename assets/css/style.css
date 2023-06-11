@@ -1,3 +1,20 @@
+/* Variáveis padrões */
+:root {
+    --amarelo: yellow;
+    --amarelo-claro: #ffffc4;
+    --branco: white;
+    --cinza-azulado: #233d3f;
+    --cinza-azulado-claro: #233d3f;
+    --azul: #1b71f1;
+    --azul-claro: #b2f3ff;
+    --vermelho-crimson: crimson;
+    --vermelho-crimson-claro: rgb(255, 57, 97);
+    --preto-transparente10: rgba(0, 0, 0, 0.1);
+    --preto-transparente50: rgba(0, 0, 0, 0.5);
+    --preto-transparente80: rgba(0, 0, 0, 0.8);
+}
+
+/* Configurações de reboot e elementos padrões */
 * {
     margin: 0;
     padding: 0;
@@ -36,8 +53,21 @@ h6 {
     font-size: 13pt;
 }
 
-/* Editor de dados */
+.fundo-amarelo-claro {
+    background-color: var(--amarelo-claro);
+}
 
+.fundo-azul-claro {
+    background-color: var(--azul-claro);
+}
+
+.espacamento div {
+    border: 1px solid var(--preto-transparente10);
+    width: calc(100% / 7);
+    text-align: center;
+}
+
+/* Editor de dados */
 div#editar-valor {
     position: fixed;
     display: none;
@@ -45,25 +75,24 @@ div#editar-valor {
     justify-content: center;
     width: 100%;
     min-height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: var(--preto-transparente80);
 }
 
-section.editor {
-    background-color: rgb(255, 255, 182);
+#editor {
     width: 450px;
     height: 350px;
     padding: 10px;
 }
 
-section.editor div.fechar-editor {
+#editor div.fechar-editor {
     display: flex;
     justify-content: center;
     align-items: center;
     float: right;
     text-transform: uppercase;
     font-weight: bolder;
-    background-color: crimson;
-    color: white;
+    background-color: var(--vermelho-crimson);
+    color: var(--branco);
     font-size: 10pt;
     width: 20px;
     height: 20px;
@@ -71,18 +100,18 @@ section.editor div.fechar-editor {
     cursor: pointer;
 }
 
-section.editor div.fechar-editor:hover {
-    background-color: rgb(247, 40, 81);
+#editor div.fechar-editor:hover {
+    background-color: var(--vermelho-crimson-claro);
 }
 
-section.editor h1 {
+#editor h1 {
     text-transform: uppercase;
     font-size: 20pt;
     text-align: center;
     margin-left: 20px;
 }
 
-form {
+.formulario {
     text-align: center;
     padding: 10px 0;
 }
@@ -90,48 +119,32 @@ form {
 textarea#conteudo {
     width: 100%;
     height: 20%;
-    border: 1px solid rgba(0, 0, 0, 0.3);
+    resize: none;
+    border: 1px solid var(--preto-transparente10);
     border-radius: 3px;
     margin: 10px 0;
     padding: 5px;
     font-size: 10pt;
 }
 
-form button {
-    border: 1px solid rgba(0, 0, 0, 0.3);
+.formulario button {
+    border: 1px solid var(--preto-transparente10);
     border-radius: 3px;
     padding: 5px;
     text-transform: uppercase;
     font-weight: bold;
-    background-color: rgb(35, 61, 63);
-    color: white;
+    background-color: var(--cinza-azulado);
+    color: var(--branco);
 }
 
-form button:hover {
-    background-color: rgb(59, 104, 107);
+.formulario button:hover {
+    background-color: var(--cinza-azulado-claro);
 }
 
 /* Dados do projeto */
-.fundo-amarelo-claro {
-    background-color: rgb(255, 255, 182);
-}
-
-.fundo-azul-claro {
-    background-color: rgb(178, 227, 255);
-}
-
-.dias div,
-.intervalo-hora div,
-.total-periodo-dia div,
-#total-por-dia div {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    width: calc(100% / 7);
-    text-align: center;
-}
-
 #conteudo-principal {
     width: 100%;
-    border: 2px solid rgb(35, 61, 63);
+    border: 2px solid var(--cinza-azulado);
 }
 
 #titulo-principal {
@@ -139,31 +152,39 @@ form button:hover {
     align-items: center;
     justify-content: center;
     height: 25px;
-    background-color: rgb(35, 61, 63);
-    color: yellow;
+    background-color: var(--cinza-azulado);
+    color: var(--amarelo);
+    padding: 15px;
+    word-spacing: 10px;
+    letter-spacing: 3px;
     text-transform: uppercase;
     font-weight: bold;
 }
 
-.dias {
+.coluna-dias {
     display: flex;
     text-transform: uppercase;
     font-size: 11pt;
+    letter-spacing: 2px;
     font-weight: 600;
 }
 
-.periodo div {
-    padding-top: 5px;
-    background-color: rgb(35, 61, 63);
-    color: yellow;
+.periodo {
+    padding: 3px;
+    background-color: var(--cinza-azulado);
+    color: var(--amarelo);
+    font-weight: bold;
+    font-size: 11pt;
+    word-spacing: 10px;
+    letter-spacing: 3px;
     text-transform: uppercase;
     text-align: center;
 }
 
 .intervalo-hora {
     display: flex;
-    background-color: rgb(27, 113, 241);
-    color: white;
+    background-color: var(--azul);
+    color: var(--branco);
     font-size: 10pt;
 }
 
@@ -172,9 +193,9 @@ form button:hover {
 }
 
 .texto-nota div {
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--preto-transparente10);
     width: calc(100% / 7);
-    height: 134px;
+    height: 160px;
     padding: 5px;
     font-weight: 600;
     font-style: italic;
@@ -184,13 +205,13 @@ form button:hover {
 
 .total-periodo-dia {
     display: flex;
-    background-color: yellow;
+    background-color: var(--amarelo);
     font-size: 10pt;
 }
 
 #total-por-dia {
     display: flex;
-    border: 1px solid rgba(0, 0, 0, 0.5);
+    flex-direction: row;
     font-weight: 600;
     font-size: 12pt;
 }
@@ -199,8 +220,8 @@ form button:hover {
     display: flex;
     align-items: center;
     height: 25px;
-    background-color: rgb(35, 61, 63);
-    color: yellow;
+    background-color: var(--cinza-azulado);
+    color: var(--amarelo);
     font-size: 13pt;
     text-transform: uppercase;
     font-weight: 600;
@@ -208,11 +229,14 @@ form button:hover {
 
 #total-horas div:first-child {
     text-align: start;
+    word-spacing: 10px;
+    letter-spacing: 3px;
     padding-left: 10px;
     width: 100%;
 }
 
 #total-horas div:last-child {
     width: calc(100% / 7 + 2.5%);
+    padding-left: 10px;
     text-align: center;
 }

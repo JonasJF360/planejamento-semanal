@@ -10,19 +10,19 @@
 
 <body>
     <div id="editar-valor">
-        <section class="editor">
+        <section id="editor">
             <div class="fechar-editor">x</div>
             <h1>Dia selecionado</h1>
-            <form action="">
+            <section class="formulario">
                 <label>Início:</label>
                 <input type="time" min="06:00" max="00:00" step="3600" min="00:00" max="23:59"
-                    pattern="[0-2][0-9]:[0-5][0-9]" value="06:00" id="inicio">
+                    pattern="[0-2][0-9]:[0-5][0-9]" value="06:00" id="tempo-inicio">
                 <label>Fim:</label>
                 <input type="time" step="3600" min="00:00" max="23:59" pattern="[0-2][0-9]:[0-5][0-9]" value="07:00"
-                    id="fim">
-                <textarea id="conteudo" cols="55" rows="12"></textarea>
-                <button>Aplicar</button>
-            </form>
+                    id="tempo-final">
+                <textarea id="conteudo" cols="55" rows="12" minlength="0" maxlength="5000"></textarea>
+                <button id="aplicar">Aplicar</button>
+            </section>
         </section>
     </div>
 
@@ -32,7 +32,7 @@
                 <div id="titulo-principal">
                     <div>Planilha de Planejamento Semanal</div>
                 </div>
-                <div class=" dias">
+                <div class="espacamento coluna-dias">
                     <div class="fundo-amarelo-claro">Domingo</div>
                     <div class="fundo-azul-claro">Segunda</div>
                     <div class="fundo-amarelo-claro">Terça</div>
@@ -45,9 +45,9 @@
 
             <section>
                 <div class="periodo">
-                    <div>Período da Manha</div>
+                    <div>Período da Manhã</div>
                 </div>
-                <div class=" intervalo-hora">
+                <div class="espacamento intervalo-hora">
                     <div id="inicio_manha_01">00:00</div>
                     <div id="fim_manha_01">00:00</div>
                     <div id="inicio_manha_02">00:00</div>
@@ -72,7 +72,7 @@
                     <div id="texto_manha_06" class="fundo-azul-claro"></div>
                     <div id="texto_manha_07" class="fundo-amarelo-claro"></div>
                 </div>
-                <div class="total-periodo-dia">
+                <div class="espacamento total-periodo-dia">
                     <div id="total_manha_01">00:00</div>
                     <div id="total_manha_02">00:00</div>
                     <div id="total_manha_03">00:00</div>
@@ -85,7 +85,7 @@
                 <div class="periodo">
                     <div>Período da Tarde</div>
                 </div>
-                <div class=" intervalo-hora">
+                <div class="espacamento intervalo-hora">
                     <div id="inicio_tarde_01">00:00</div>
                     <div id="fim_tarde_01">00:00</div>
                     <div id="inicio_tarde_02">00:00</div>
@@ -110,7 +110,7 @@
                     <div id="texto_tarde_06" class="fundo-azul-claro"></div>
                     <div id="texto_tarde_07" class="fundo-amarelo-claro"></div>
                 </div>
-                <div class="total-periodo-dia">
+                <div class="espacamento total-periodo-dia">
                     <div id="total_tarde_01">00:00</div>
                     <div id="total_tarde_02">00:00</div>
                     <div id="total_tarde_03">00:00</div>
@@ -123,7 +123,7 @@
                 <div class="periodo">
                     <div>Período da Noite</div>
                 </div>
-                <div class="intervalo-hora">
+                <div class="espacamento intervalo-hora">
                     <div id="inicio_noite_01">00:00</div>
                     <div id="fim_noite_01">00:00</div>
                     <div id="inicio_noite_02">00:00</div>
@@ -148,7 +148,7 @@
                     <div id="texto_noite_06" class="fundo-azul-claro"></div>
                     <div id="texto_noite_07" class="fundo-amarelo-claro"></div>
                 </div>
-                <div class="total-periodo-dia">
+                <div class="espacamento total-periodo-dia">
                     <div id="total_noite_01">00:00</div>
                     <div id="total_noite_02">00:00</div>
                     <div id="total_noite_03">00:00</div>
@@ -160,7 +160,7 @@
             </section>
 
             <footer>
-                <div id="total-por-dia">
+                <div id="total-por-dia" class="espacamento">
                     <div id="total_dia_01" class="fundo-amarelo-claro">00:00</div>
                     <div id="total_dia_02" class="fundo-azul-claro">00:00</div>
                     <div id="total_dia_03" class="fundo-amarelo-claro">00:00</div>
