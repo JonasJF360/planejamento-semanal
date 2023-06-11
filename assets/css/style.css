@@ -5,6 +5,7 @@
     --branco: white;
     --cinza-azulado: #233d3f;
     --cinza-azulado-claro: #233d3f;
+    --cinza-fundo: linear-gradient(to bottom, #b2f3ff, #ffffc4);
     --azul: #1b71f1;
     --azul-claro: #b2f3ff;
     --vermelho-crimson: crimson;
@@ -22,17 +23,21 @@
 }
 
 body {
+    height: 100vh;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: var(--cinza-fundo);
+}
+
+/* Dados globais */
+#corpo-da-pagina {
+    width: 1200px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Dados globais */
-div#corpo-da-pagina {
-    width: 1200px;
+    margin: 0 auto;
 }
 
 h1 {
@@ -111,6 +116,33 @@ div#editar-valor {
     margin-left: 20px;
 }
 
+.container-tempo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 12pt;
+}
+
+.container-tempo * {
+    margin: 0 6px;
+}
+
+.container-tempo input {
+    font-size: 10pt;
+    background-color: var(--branco);
+    border: 1px solid var(--preto-transparente10);
+    color: var(--cinza-azulado);
+    border-radius: 3px;
+    margin-left: -4px;
+    padding: 1px;
+}
+
+#intervalo_tempo {
+    width: 60px;
+    text-align: center;
+}
+
 .formulario {
     text-align: center;
     padding: 10px 0;
@@ -121,6 +153,7 @@ textarea#conteudo {
     height: 20%;
     resize: none;
     border: 1px solid var(--preto-transparente10);
+    color: var(--cinza-azulado);
     border-radius: 3px;
     margin: 10px 0;
     padding: 5px;
@@ -196,13 +229,15 @@ textarea#conteudo {
 .texto-nota div {
     border: 1px solid var(--preto-transparente10);
     width: calc(100% / 7);
-    height: 160px;
+    height: 133.5px;
     padding: 5px;
     font-weight: 600;
     font-style: italic;
     letter-spacing: .6px;
     cursor: pointer;
     font-size: 9pt;
+    overflow: auto;
+    overscroll-behavior-y: contain;
 }
 
 .total-periodo-dia {

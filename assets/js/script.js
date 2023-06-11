@@ -9,7 +9,7 @@
         dia07: 'Sábado'
     }
 
-    const idReferencia = []
+    const idReferencia = [0]
 
     const dadosTexto = document.querySelectorAll('.texto-nota')
     const editorDeDados = document.querySelector('#editar-valor')
@@ -20,6 +20,9 @@
         e.preventDefault()
         editorDeDados.style.display = 'none'
     })
+
+    document.querySelector('#tempo-inicio').addEventListener('input', mudarIntervaloTEmpo)
+    document.querySelector('#tempo-final').addEventListener('input', mudarIntervaloTEmpo)
 
     document.querySelector('#aplicar').addEventListener('click', aplicarAlteracoes)
 
@@ -35,10 +38,11 @@
 
     const abrirEditor = (e) => {
         e.preventDefault()
-        let pegarId = e.target.id
-        let listaId = (pegarId.replaceAll('_', ' ')).split(" ")
+        let pegarId = (e.target.id).replaceAll('_', ' ').split(" ")
+        idReferencia.splice(0)
+        pegarId.forEach((valor) => idReferencia.push(valor))
 
-        if (listaId[2] % 2 == 0) {
+        if (idReferencia[2] % 2 == 0) {
             corDoEditor.classList.remove('fundo-amarelo-claro')
             corDoEditor.classList.add('fundo-azul-claro')
         } else {
@@ -46,34 +50,51 @@
             corDoEditor.classList.add('fundo-amarelo-claro')
         }
 
-        let periodo = listaId[1] == 'manha' ? 'manhã' : listaId[1]
-        document.querySelector('#editor h1').innerText = periodo + ': '
-            + diasDaSemana[`dia${listaId[2]}`]
-
-        if (document.querySelector(`#${pegarId}`).innerText) {
-            conteudoEditor.value = document.querySelector(`#${pegarId}`).innerText
-        }
+        mostrarDadosExistentes()
 
         editorDeDados.style.display = 'flex'
-        idReferencia[0] = pegarId
+    }
+
+    function mostrarDadosExistentes() {
+        let periodo = idReferencia[1] == 'manha' ? 'manhã' : idReferencia[1]
+        document.querySelector('#editor h1').innerText = periodo + ': '
+            + diasDaSemana[`dia${idReferencia[2]}`]
+
+
+        if (document.querySelector(`#total_${idReferencia[1]}_${idReferencia[2]}`).innerText != "00:00") {
+            document.querySelector('#tempo-inicio').value = document.querySelector(`#inicio_${idReferencia[1]}_${idReferencia[2]}`).innerText
+            document.querySelector('#tempo-final').value = document.querySelector(`#fim_${idReferencia[1]}_${idReferencia[2]}`).innerText
+            console.log('Aqui funciona')
+        }
+        document.querySelector('#intervalo_tempo').value = calcularTempo()[2]
+
+        if (document.querySelector(`#${idReferencia.join('_')}`).innerText) {
+            conteudoEditor.value = document.querySelector(`#${idReferencia.join('_')}`).innerText
+        } else {
+            conteudoEditor.value = ''
+        }
+    }
+
+    function mudarIntervaloTEmpo(e) {
+        e.preventDefault()
+        document.querySelector('#intervalo_tempo').value = calcularTempo()[2]
     }
 
     function aplicarAlteracoes(e) {
         e.preventDefault()
-        let listaId = (idReferencia[0].replaceAll('_', ' ')).split(" ")
-        document.querySelector(`#${idReferencia[0]}`).innerText = conteudoEditor.value
+        document.querySelector(`#${idReferencia.join('_')}`).innerText = conteudoEditor.value
 
         let tempoCalculado = calcularTempo()
 
-        document.querySelector(`#inicio_${listaId[1]}_${listaId[2]}`).innerText = tempoCalculado[0]
-        document.querySelector(`#fim_${listaId[1]}_${listaId[2]}`).innerText = tempoCalculado[1]
-        document.querySelector(`#total_${listaId[1]}_${listaId[2]}`).innerText = tempoCalculado[2]
+        document.querySelector(`#inicio_${idReferencia[1]}_${idReferencia[2]}`).innerText = tempoCalculado[0]
+        document.querySelector(`#fim_${idReferencia[1]}_${idReferencia[2]}`).innerText = tempoCalculado[1]
+        document.querySelector(`#total_${idReferencia[1]}_${idReferencia[2]}`).innerText = tempoCalculado[2]
 
         editorDeDados.style.display = 'none'
         conteudoEditor.value = ''
 
         let totalHoraDia = calcularTempoTotalDoDia()
-        document.querySelector(`#total_dia_${listaId[2]}`).innerText = totalHoraDia
+        document.querySelector(`#total_dia_${idReferencia[2]}`).innerText = totalHoraDia
 
         calcularTempoTotal()
     }
@@ -98,10 +119,9 @@
     }
 
     function calcularTempoTotalDoDia() {
-        let listaId = (idReferencia[0].replaceAll('_', ' ')).split(" ")
-        let periodoManha = document.querySelector(`#total_manha_${listaId[2]}`).innerText.split(':')
-        let periodoTarde = document.querySelector(`#total_tarde_${listaId[2]}`).innerText.split(':')
-        let periodoNoite = document.querySelector(`#total_noite_${listaId[2]}`).innerText.split(':')
+        let periodoManha = document.querySelector(`#total_manha_${idReferencia[2]}`).innerText.split(':')
+        let periodoTarde = document.querySelector(`#total_tarde_${idReferencia[2]}`).innerText.split(':')
+        let periodoNoite = document.querySelector(`#total_noite_${idReferencia[2]}`).innerText.split(':')
 
         let horas = parseInt(periodoManha[0]) + parseInt(periodoTarde[0]) + parseInt(periodoNoite[0])
         let minutos = parseInt(periodoManha[1]) + parseInt(periodoTarde[1]) + parseInt(periodoNoite[1])
@@ -116,11 +136,8 @@
 
 
     function calcularTempo() {
-        let inputTempoInicio = document.querySelector('#tempo-inicio')
-        let inputTempofinal = document.querySelector('#tempo-final')
-
-        let horaInicio = inputTempoInicio.value.split(':')
-        let horaFim = inputTempofinal.value.split(':')
+        let horaInicio = document.querySelector('#tempo-inicio').value.split(':')
+        let horaFim = document.querySelector('#tempo-final').value.split(':')
 
         let horaInicioHoras = parseInt(horaInicio[0])
         let horaInicioMinutos = parseInt(horaInicio[1])
@@ -132,20 +149,19 @@
             horaFimHoras > 0 ? horaFimHoras-- : horaFimHoras = 23
         }
 
-        let horasDecorridas = horaFimHoras - horaInicioHoras
-        let minutosDecorridos = horaFimMinutos - horaInicioMinutos
+        let horas = horaFimHoras - horaInicioHoras
+        let minutos = horaFimMinutos - horaInicioMinutos
 
-        if (minutosDecorridos < 0) {
-            horasDecorridas--
-            minutosDecorridos += 60
+        if (minutos < 0) {
+            horas--
+            minutos += 60
         }
 
-        // Formatando o texto de saída
-        let horasDecorridasFormatadas = horasDecorridas.toString().padStart(2, '0')
-        let minutosDecorridosFormatados = minutosDecorridos.toString().padStart(2, '0')
-
-
-        return [inputTempoInicio.value, inputTempofinal.value, horasDecorridasFormatadas + ':' + minutosDecorridosFormatados]
+        return [
+            horaInicio.join(':'),
+            horaFim.join(':'),
+            (horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0'))
+        ]
     }
 
     // Primeira execução
