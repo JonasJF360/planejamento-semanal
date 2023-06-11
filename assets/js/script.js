@@ -9,19 +9,20 @@
         dia07: 'Sábado'
     }
 
+    const idReferencia = []
+
     const dadosTexto = document.querySelectorAll('.texto-nota')
     const editorDeDados = document.querySelector('#editar-valor')
     const corDoEditor = document.querySelector('section#editor')
     const conteudoEditor = document.querySelector('#conteudo')
+
     document.querySelector('.fechar-editor').addEventListener('click', (e) => {
         e.preventDefault()
         editorDeDados.style.display = 'none'
     })
 
-
     document.querySelector('#aplicar').addEventListener('click', aplicarAlteracoes)
 
-    const dadosTemloraros = []
 
     // funcões
     function firstStart() {
@@ -54,13 +55,13 @@
         }
 
         editorDeDados.style.display = 'flex'
-        dadosTemloraros[0] = pegarId
+        idReferencia[0] = pegarId
     }
 
     function aplicarAlteracoes(e) {
         e.preventDefault()
-        let listaId = (dadosTemloraros[0].replaceAll('_', ' ')).split(" ")
-        document.querySelector(`#${dadosTemloraros[0]}`).innerText = conteudoEditor.value
+        let listaId = (idReferencia[0].replaceAll('_', ' ')).split(" ")
+        document.querySelector(`#${idReferencia[0]}`).innerText = conteudoEditor.value
 
         let tempoCalculado = calcularTempo()
 
@@ -71,12 +72,33 @@
         editorDeDados.style.display = 'none'
         conteudoEditor.value = ''
 
-        let totalHoraDia = calcularTotalDoDia()
+        let totalHoraDia = calcularTempoTotalDoDia()
         document.querySelector(`#total_dia_${listaId[2]}`).innerText = totalHoraDia
+
+        calcularTempoTotal()
     }
 
-    function calcularTotalDoDia() {
-        let listaId = (dadosTemloraros[0].replaceAll('_', ' ')).split(" ")
+    function calcularTempoTotal() {
+        let horas = 0
+        let minutos = 0
+        let pegarTempo = 0
+        for (let i = 1; i <= 7; i++) {
+            pegarTempo = document.querySelector(`#total_dia_0${i}`).innerText.split(':')
+            horas += parseInt(pegarTempo[0])
+            minutos += parseInt(pegarTempo[1])
+        }
+        while (minutos > 59) {
+            horas++
+            minutos -= 60
+        }
+
+        let tempoTotal = horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0')
+
+        document.querySelector('#total_da_semana').innerText = tempoTotal
+    }
+
+    function calcularTempoTotalDoDia() {
+        let listaId = (idReferencia[0].replaceAll('_', ' ')).split(" ")
         let periodoManha = document.querySelector(`#total_manha_${listaId[2]}`).innerText.split(':')
         let periodoTarde = document.querySelector(`#total_tarde_${listaId[2]}`).innerText.split(':')
         let periodoNoite = document.querySelector(`#total_noite_${listaId[2]}`).innerText.split(':')
@@ -126,8 +148,7 @@
         return [inputTempoInicio.value, inputTempofinal.value, horasDecorridasFormatadas + ':' + minutosDecorridosFormatados]
     }
 
-
-    // Ordem de execução
+    // Primeira execução
     firstStart()
 
 })()

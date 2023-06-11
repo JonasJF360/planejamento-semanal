@@ -186,6 +186,7 @@ textarea#conteudo {
     background-color: var(--azul);
     color: var(--branco);
     font-size: 10pt;
+    font-weight: 600;
 }
 
 .texto-nota {
@@ -199,6 +200,7 @@ textarea#conteudo {
     padding: 5px;
     font-weight: 600;
     font-style: italic;
+    letter-spacing: .6px;
     cursor: pointer;
     font-size: 9pt;
 }
@@ -207,6 +209,7 @@ textarea#conteudo {
     display: flex;
     background-color: var(--amarelo);
     font-size: 10pt;
+    font-weight: 600;
 }
 
 #total-por-dia {
