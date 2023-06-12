@@ -66,12 +66,12 @@
         document.querySelector('#editor h1').innerText = periodo + ': '
             + diasDaSemana[`dia${idReferencia[2]}`]
 
-
         if (document.querySelector(`#total_${idReferencia[1]}_${idReferencia[2]}`).innerText != "00:00") {
             document.querySelector('#tempo-inicio').value = document.querySelector(`#inicio_${idReferencia[1]}_${idReferencia[2]}`).innerText
             document.querySelector('#tempo-final').value = document.querySelector(`#fim_${idReferencia[1]}_${idReferencia[2]}`).innerText
             console.log('Aqui funciona')
         }
+
         document.querySelector('#intervalo_tempo').value = calcularTempo()[2]
 
         if (document.querySelector(`#${idReferencia.join('_')}`).innerText) {
@@ -187,7 +187,32 @@
                     dadosSalvos[`${periodo}`][`dia0${num}`].intervalo
             }
         }
+        totalDiaStart()
         calcularTempoTotal()
+    }
+
+    function totalDiaStart() {
+        let periodos = ['manha', 'tarde', 'noite']
+        let horas = 0
+        let minutos = 0
+        let pegarTempo = 0
+
+        for (let num = 1; num <= 7; num++) {
+            for (let periodo of periodos) {
+                pegarTempo = document.querySelector(`#total_${periodo}_0${num}`).innerText.split(':')
+                horas += parseInt(pegarTempo[0])
+                minutos += parseInt(pegarTempo[1])
+            }
+            while (minutos > 59) {
+                horas++
+                minutos -= 60
+            }
+            document.querySelector(`#total_dia_0${num}`).innerText =
+                horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0')
+            horas = 0
+            minutos = 0
+            pegarTempo = 0
+        }
     }
 
     function salvarArquivoDeDadosJson() {
@@ -249,6 +274,5 @@
 
     // Primeira execução
     firstStart()
-    // criarArquivoDeDadosJson()
 
 })()
