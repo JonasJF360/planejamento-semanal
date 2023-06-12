@@ -34,6 +34,12 @@
                 filho.addEventListener('click', abrirEditor)
             }
         }
+
+        if (localStorage.BaseDadosProgramacaoSemanal) {
+            carregarDados()
+        } else {
+            criarArquivoDeDadosJson()
+        }
     }
 
     const abrirEditor = (e) => {
@@ -97,6 +103,8 @@
         document.querySelector(`#total_dia_${idReferencia[2]}`).innerText = totalHoraDia
 
         calcularTempoTotal()
+
+        salvarArquivoDeDadosJson()
     }
 
     function calcularTempoTotal() {
@@ -134,7 +142,6 @@
         return horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0')
     }
 
-
     function calcularTempo() {
         let horaInicio = document.querySelector('#tempo-inicio').value.split(':')
         let horaFim = document.querySelector('#tempo-final').value.split(':')
@@ -164,7 +171,84 @@
         ]
     }
 
+    // Manipulando os dados 
+    function carregarDados() {
+        const dadosSalvos = JSON.parse(localStorage.getItem('BaseDadosProgramacaoSemanal'))
+        let periodos = ['manha', 'tarde', 'noite']
+        for (let periodo of periodos) {
+            for (let num = 1; num <= 7; num++) {
+                document.querySelector(`#inicio_${periodo}_0${num}`).innerText =
+                    dadosSalvos[`${periodo}`][`dia0${num}`].horaInicio
+                document.querySelector(`#fim_${periodo}_0${num}`).innerText =
+                    dadosSalvos[`${periodo}`][`dia0${num}`].horaFim
+                document.querySelector(`#texto_${periodo}_0${num}`).innerText =
+                    dadosSalvos[`${periodo}`][`dia0${num}`].conteudo
+                document.querySelector(`#total_${periodo}_0${num}`).innerText =
+                    dadosSalvos[`${periodo}`][`dia0${num}`].intervalo
+            }
+        }
+        calcularTempoTotal()
+    }
+
+    function salvarArquivoDeDadosJson() {
+        const dadosSalvos = JSON.parse(localStorage.getItem('BaseDadosProgramacaoSemanal'))
+        localStorage.clear('BaseDadosProgramacaoSemanal')
+
+        let periodos = ['manha', 'tarde', 'noite']
+        for (let periodo of periodos) {
+            for (let num = 1; num <= 7; num++) {
+                dadosSalvos[`${periodo}`][`dia0${num}`].horaInicio =
+                    document.querySelector(`#inicio_${periodo}_0${num}`).innerText
+                dadosSalvos[`${periodo}`][`dia0${num}`].horaFim =
+                    document.querySelector(`#fim_${periodo}_0${num}`).innerText
+                dadosSalvos[`${periodo}`][`dia0${num}`].conteudo =
+                    document.querySelector(`#texto_${periodo}_0${num}`).innerText
+                dadosSalvos[`${periodo}`][`dia0${num}`].intervalo =
+                    document.querySelector(`#total_${periodo}_0${num}`).innerText
+            }
+        }
+
+        const jsonData = JSON.stringify(dadosSalvos)
+        localStorage.setItem('BaseDadosProgramacaoSemanal', jsonData)
+    }
+
+    function criarArquivoDeDadosJson() {
+        const BaseDados = {
+            manha: {
+                dia01: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia02: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia03: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia04: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia05: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia06: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia07: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+            },
+            tarde: {
+                dia01: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia02: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia03: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia04: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia05: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia06: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia07: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+            },
+            noite: {
+                dia01: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia02: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia03: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia04: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia05: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia06: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia07: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+            }
+        }
+
+        const jsonData = JSON.stringify(BaseDados)
+        localStorage.setItem('BaseDadosProgramacaoSemanal', jsonData)
+    }
+
     // Primeira execução
     firstStart()
+    // criarArquivoDeDadosJson()
 
 })()
