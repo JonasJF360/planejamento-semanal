@@ -274,11 +274,18 @@ textarea#conteudo {
 }
 
 #total-por-dia div {
-    border: 1px solid var(--preto-transparente10);
     width: 100%;
     font-weight: 600;
     font-size: 12pt;
     text-align: center;
+}
+
+#total-por-dia div:first-child {
+    font-size: 8pt;
+}
+
+div.container-total div {
+    border: 1px solid var(--preto-transparente10);
 }
 
 #total-horas {
