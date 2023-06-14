@@ -32,7 +32,7 @@ body {
 /* Dados globais */
 #corpo-da-pagina {
     padding-top: .5%;
-    width: 100%;
+    width: 95%;
     max-width: 1200px;
     height: 100%;
     display: flex;
@@ -178,7 +178,7 @@ textarea#conteudo {
 /* Dados do projeto */
 #conteudo-principal {
     width: 100%;
-    border: 2px solid var(--cinza-azulado);
+    border: 1px solid var(--cinza-azulado);
 }
 
 #titulo-principal {
@@ -355,13 +355,30 @@ div.container-total div {
 }
 
 @media (max-width: 600px) {
+    div#editar-valor {
+        align-items: start;
+    }
+
+    .container-tempo {
+        flex-wrap: wrap;
+    }
+
+    #editor {
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+    }
+
     .espacamento-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
     }
+    #total-horas {
+        font-size: 10pt;
+    }
 }
 
-@media (max-width: 340px) {
+@media (max-width: 375px) {
     .espacamento-grid {
         display: grid;
         grid-template-columns: 1fr;
@@ -369,7 +386,14 @@ div.container-total div {
 }
 
 @media (max-width: 200px) {
+    div#editar-valor,
     #corpo-da-pagina {
         display: none;
+    }
+    #mensagem-tela::after {
+        content: "Tamanho de tela não suportado.";
+        text-transform: uppercase;
+        font-size: 10pt;
+        padding: 2px;
     }
 }
