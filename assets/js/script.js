@@ -30,9 +30,7 @@
     // funcões
     function firstStart() {
         for (let dado of dadosTexto) {
-            for (let filho of dado.children) {
-                filho.addEventListener('click', abrirEditor)
-            }
+            dado.addEventListener('click', abrirEditor)
         }
 
         if (localStorage.BaseDadosProgramacaoSemanal) {

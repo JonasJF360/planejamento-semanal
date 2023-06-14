@@ -1,11 +1,11 @@
 /* Variáveis padrões */
 :root {
+    --cor-de-fundo: #94aaac;
     --amarelo: yellow;
     --amarelo-claro: #ffffc4;
     --branco: white;
     --cinza-azulado: #233d3f;
     --cinza-azulado-claro: #233d3f;
-    --cinza-fundo: linear-gradient(to bottom, #b2f3ff, #ffffc4);
     --azul: #1b71f1;
     --azul-claro: #b2f3ff;
     --vermelho-crimson: crimson;
@@ -26,17 +26,18 @@ body {
     height: 100vh;
     min-height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
-    background-image: var(--cinza-fundo);
+    background-color: var(--cor-de-fundo);
 }
 
 /* Dados globais */
 #corpo-da-pagina {
-    width: 1200px;
+    padding-top: .5%;
+    width: 100%;
+    max-width: 1200px;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     margin: 0 auto;
 }
 
@@ -66,11 +67,11 @@ h6 {
     background-color: var(--azul-claro);
 }
 
-.espacamento div {
-    border: 1px solid var(--preto-transparente10);
-    width: calc(100% / 7);
-    text-align: center;
+.espacamento-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
 }
+
 
 /* Editor de dados */
 div#editar-valor {
@@ -181,38 +182,61 @@ textarea#conteudo {
 }
 
 #titulo-principal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 25px;
+    padding: 4px;
     background-color: var(--cinza-azulado);
-    color: var(--amarelo);
-    padding: 15px;
-    word-spacing: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-weight: bold;
 }
 
-.coluna-dias {
-    display: flex;
+#titulo-principal h1 {
+    font-size: 14pt;
+    color: var(--amarelo);
+    word-spacing: 10px;
+    letter-spacing: 3px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+
+}
+
+.coluna-dias,
+.coluna-dias-responsivo {
+    text-align: center;
     text-transform: uppercase;
     font-size: 11pt;
     letter-spacing: 2px;
     font-weight: 600;
 }
 
+.coluna-dias div,
+.coluna-dias-responsivo div {
+    border: 1px solid var(--preto-transparente10);
+}
+
+.coluna-dias-responsivo {
+    display: none;
+    font-size: 8pt;
+    padding: 1px;
+}
+
 .periodo {
     padding: 3px;
     background-color: var(--cinza-azulado);
-    color: var(--amarelo);
-    font-weight: bold;
-    font-size: 11pt;
-    word-spacing: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    text-align: center;
+
 }
+
+.periodo h2 {
+    color: var(--amarelo);
+    font-size: 11pt;
+    font-weight: bold;
+    word-spacing: 10px;
+    letter-spacing: 2px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.container-periodo-dia {
+    width: 100%;
+}
+
 
 .intervalo-hora {
     display: flex;
@@ -222,13 +246,13 @@ textarea#conteudo {
     font-weight: 600;
 }
 
-.texto-nota {
-    display: flex;
+.intervalo-hora div {
+    border: 1px solid var(--preto-transparente10);
+    width: 100%;
+    text-align: center;
 }
 
-.texto-nota div {
-    border: 1px solid var(--preto-transparente10);
-    width: calc(100% / 7);
+.texto-nota {
     height: 133.5px;
     padding: 5px;
     font-weight: 600;
@@ -238,26 +262,28 @@ textarea#conteudo {
     font-size: 9pt;
     overflow: auto;
     overscroll-behavior-y: contain;
+    border: 1px solid var(--preto-transparente10);
 }
 
 .total-periodo-dia {
-    display: flex;
+    border: 1px solid var(--preto-transparente10);
     background-color: var(--amarelo);
     font-size: 10pt;
     font-weight: 600;
+    text-align: center;
 }
 
-#total-por-dia {
-    display: flex;
-    flex-direction: row;
+#total-por-dia div {
+    border: 1px solid var(--preto-transparente10);
+    width: 100%;
     font-weight: 600;
     font-size: 12pt;
+    text-align: center;
 }
 
 #total-horas {
     display: flex;
-    align-items: center;
-    height: 25px;
+    padding: 1px;
     background-color: var(--cinza-azulado);
     color: var(--amarelo);
     font-size: 13pt;
@@ -277,4 +303,66 @@ textarea#conteudo {
     width: calc(100% / 7 + 2.5%);
     padding-left: 10px;
     text-align: center;
+}
+
+/*** Media Query ***/
+@media (max-width: 1050px) {
+
+    .coluna-dias {
+        display: none;
+    }
+
+    .coluna-dias * {
+        display: none;
+    }
+
+    .coluna-dias-responsivo {
+        display: block;
+    }
+
+    .espacamento-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (max-width: 920px) {
+    .espacamento-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (max-width: 850px) {
+    .espacamento-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 750px) {
+    .espacamento-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .espacamento-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 340px) {
+    .espacamento-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 200px) {
+    #corpo-da-pagina {
+        display: none;
+    }
 }
