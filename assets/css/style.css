@@ -11,8 +11,8 @@
     --vermelho-crimson: crimson;
     --vermelho-crimson-claro: rgb(255, 57, 97);
     --preto-transparente10: rgba(0, 0, 0, 0.1);
-    --preto-transparente50: rgba(0, 0, 0, 0.5);
     --preto-transparente80: rgba(0, 0, 0, 0.8);
+    --largura-base: 1200px;
 }
 
 /* Configurações de reboot e elementos padrões */
@@ -32,8 +32,8 @@ body {
 /* Dados globais */
 #corpo-da-pagina {
     padding-top: .5%;
-    width: 95%;
-    max-width: 1200px;
+    width: 100%;
+    max-width: var(--largura-base);
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -67,9 +67,15 @@ h6 {
     background-color: var(--azul-claro);
 }
 
-.espacamento-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
+.espacamento-flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.espacamento-flex div {
+    width: 171.1px;
 }
 
 
@@ -179,6 +185,7 @@ textarea#conteudo {
 #conteudo-principal {
     width: 100%;
     border: 1px solid var(--cinza-azulado);
+    background-color: var(--preto-transparente10);
 }
 
 #titulo-principal {
@@ -265,6 +272,10 @@ textarea#conteudo {
     border: 1px solid var(--preto-transparente10);
 }
 
+.periodo-temp {
+    display: none;
+}
+
 .total-periodo-dia {
     border: 1px solid var(--preto-transparente10);
     background-color: var(--amarelo);
@@ -274,7 +285,6 @@ textarea#conteudo {
 }
 
 #total-por-dia div {
-    width: 100%;
     font-weight: 600;
     font-size: 12pt;
     text-align: center;
@@ -313,7 +323,14 @@ div.container-total div {
 }
 
 /*** Media Query ***/
-@media (max-width: 1050px) {
+@media (max-width: 1200px) {
+    .periodo-temp {
+        display: block;
+    }
+
+    #corpo-da-pagina {
+        max-width: 687px;
+    }
 
     .coluna-dias {
         display: none;
@@ -326,35 +343,13 @@ div.container-total div {
     .coluna-dias-responsivo {
         display: block;
     }
-
-    .espacamento-grid {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-    }
 }
 
-@media (max-width: 920px) {
-    .espacamento-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
+@media (max-width: 687px) {
+    #corpo-da-pagina {
+        max-width: 515.5px;
     }
-}
 
-@media (max-width: 850px) {
-    .espacamento-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media (max-width: 750px) {
-    .espacamento-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
     div#editar-valor {
         align-items: start;
     }
@@ -369,27 +364,43 @@ div.container-total div {
         padding: 10px;
     }
 
-    .espacamento-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-    }
     #total-horas {
         font-size: 10pt;
     }
 }
 
-@media (max-width: 375px) {
-    .espacamento-grid {
-        display: grid;
-        grid-template-columns: 1fr;
+@media (max-width: 516px) {
+    #corpo-da-pagina {
+        width: 344.5px;
+        max-width: 100%;
     }
 }
 
-@media (max-width: 200px) {
+@media (max-width: 344px) {
+    #corpo-da-pagina {
+        width: 85%;
+        max-width: 100%;
+    }
+
+    .espacamento-flex div {
+        width: 100%;
+    }
+}
+
+@media (max-width: 250px) {
+    #corpo-da-pagina {
+        width: 95%;
+    }
+
+}
+
+@media (max-width: 190px) {
+
     div#editar-valor,
     #corpo-da-pagina {
         display: none;
     }
+
     #mensagem-tela::after {
         content: "Tamanho de tela não suportado.";
         text-transform: uppercase;
