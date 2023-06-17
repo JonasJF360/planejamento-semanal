@@ -1,111 +1,88 @@
 (App => {
-    const diasDaSemana = {
-        dia01: 'Domingo',
-        dia02: 'Segunda',
-        dia03: 'Terça',
-        dia04: 'Quarta',
-        dia05: 'Quinta',
-        dia06: 'Sexta',
-        dia07: 'Sábado'
-    }
+    const idElementoClicado = [0]
 
-    const idReferencia = [0]
-
-    const dadosTexto = document.querySelectorAll('.texto-nota')
-    const editorDeDados = document.querySelector('#editar-valor')
-    const corDoEditor = document.querySelector('section#editor')
     const conteudoEditor = document.querySelector('#conteudo')
-
     document.querySelector('.fechar-editor').addEventListener('click', (e) => {
         e.preventDefault()
-        editorDeDados.style.display = 'none'
+        document.querySelector('#editar-valor').style.display = 'none'
     })
 
-    document.querySelector('#tempo-inicio').addEventListener('input', mudarIntervaloTEmpo)
-    document.querySelector('#tempo-final').addEventListener('input', mudarIntervaloTEmpo)
-
+    document.querySelector('#tempo-inicio').addEventListener('input', mudarIntervaloTempo)
+    document.querySelector('#tempo-final').addEventListener('input', mudarIntervaloTempo)
     document.querySelector('#aplicar').addEventListener('click', aplicarAlteracoes)
-
 
     // funcões
     function firstStart() {
-        for (let dado of dadosTexto) {
-            dado.addEventListener('click', abrirEditor)
-        }
+        document.querySelectorAll('.texto-nota').forEach(
+            dado => dado.addEventListener('click', abrirEditor))
 
         if (localStorage.BaseDadosProgramacaoSemanal) {
             carregarDados()
-        } else {
-            criarArquivoDeDadosJson()
         }
     }
 
     const abrirEditor = (e) => {
         e.preventDefault()
         let pegarId = (e.target.id).replaceAll('_', ' ').split(" ")
-        idReferencia.splice(0)
-        pegarId.forEach((valor) => idReferencia.push(valor))
+        idElementoClicado.splice(0)
+        pegarId.forEach((valor) => idElementoClicado.push(valor))
 
-        if (idReferencia[2] % 2 == 0) {
-            corDoEditor.classList.remove('fundo-amarelo-claro')
-            corDoEditor.classList.add('fundo-azul-claro')
-        } else {
-            corDoEditor.classList.remove('fundo-azul-claro')
-            corDoEditor.classList.add('fundo-amarelo-claro')
-        }
+        document.querySelector('section#editor').style.backgroundColor =
+            getComputedStyle(e.target).getPropertyValue('background-color')
 
+        document.querySelector('#editar-valor').style.display = 'flex'
         mostrarDadosExistentes()
-
-        editorDeDados.style.display = 'flex'
     }
 
     function mostrarDadosExistentes() {
-        let periodo = idReferencia[1] == 'manha' ? 'manhã' : idReferencia[1]
-        document.querySelector('#editor h1').innerText = periodo + ': '
-            + diasDaSemana[`dia${idReferencia[2]}`]
+        let diasDaSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
+        document.querySelector('#editor h1').innerText =
+            (idElementoClicado[1] == 'manha' ? 'manhã' : idElementoClicado[1]) +
+            ': ' + diasDaSemana[parseInt(idElementoClicado[2])]
 
-        if (document.querySelector(`#total_${idReferencia[1]}_${idReferencia[2]}`).innerText != "00:00") {
-            document.querySelector('#tempo-inicio').value = document.querySelector(`#inicio_${idReferencia[1]}_${idReferencia[2]}`).innerText
-            document.querySelector('#tempo-final').value = document.querySelector(`#fim_${idReferencia[1]}_${idReferencia[2]}`).innerText
-            console.log('Aqui funciona')
+        if (document.querySelector(`#total_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText != "00:00") {
+            document.querySelector('#tempo-inicio').value = document.querySelector(`#inicio_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText
+            document.querySelector('#tempo-final').value = document.querySelector(`#fim_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText
         }
 
-        document.querySelector('#intervalo_tempo').value = calcularTempo()[2]
+        mudarIntervaloTempo()
 
-        if (document.querySelector(`#${idReferencia.join('_')}`).innerText) {
-            conteudoEditor.value = document.querySelector(`#${idReferencia.join('_')}`).innerText
+        if (document.querySelector(`#${idElementoClicado.join('_')}`).innerText) {
+            conteudoEditor.value = document.querySelector(`#${idElementoClicado.join('_')}`).innerText
         } else {
             conteudoEditor.value = ''
         }
     }
 
-    function mudarIntervaloTEmpo(e) {
-        e.preventDefault()
-        document.querySelector('#intervalo_tempo').value = calcularTempo()[2]
+    function mudarIntervaloTempo() {
+        let horaInicio = document.querySelector('#tempo-inicio').value.split(':')
+        let horaFim = document.querySelector('#tempo-final').value.split(':')
+
+        document.querySelector('#intervalo_tempo').value =
+            tempoEntreInicioEFim(horaInicio, horaFim)
     }
 
     function aplicarAlteracoes(e) {
         e.preventDefault()
-        document.querySelector(`#${idReferencia.join('_')}`).innerText = conteudoEditor.value
+        document.querySelector(`#${idElementoClicado.join('_')}`).innerText = conteudoEditor.value
 
-        let tempoCalculado = calcularTempo()
+        document.querySelector(`#inicio_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText =
+            document.querySelector('#tempo-inicio').value
+        document.querySelector(`#fim_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText =
+            document.querySelector('#tempo-final').value
+        document.querySelector(`#total_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText =
+            document.querySelector('#intervalo_tempo').value
 
-        document.querySelector(`#inicio_${idReferencia[1]}_${idReferencia[2]}`).innerText = tempoCalculado[0]
-        document.querySelector(`#fim_${idReferencia[1]}_${idReferencia[2]}`).innerText = tempoCalculado[1]
-        document.querySelector(`#total_${idReferencia[1]}_${idReferencia[2]}`).innerText = tempoCalculado[2]
-
-        editorDeDados.style.display = 'none'
+        document.querySelector('#editar-valor').style.display = 'none'
         conteudoEditor.value = ''
 
-        let totalHoraDia = calcularTempoTotalDoDia()
-        document.querySelector(`#total_dia_${idReferencia[2]}`).innerText = totalHoraDia
-
-        calcularTempoTotal()
+        calcularTempoTotalDoDia()
+        calcularTempoTotalDaSemana()
 
         salvarArquivoDeDadosJson()
     }
 
-    function calcularTempoTotal() {
+    function calcularTempoTotalDaSemana() {
         let horas = 0
         let minutos = 0
         let pegarTempo = 0
@@ -119,101 +96,81 @@
             minutos -= 60
         }
 
-        let tempoTotal = horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0')
-
-        document.querySelector('#total_da_semana').innerText = tempoTotal
+        document.querySelector('#total_da_semana').innerText =
+            horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0')
     }
 
     function calcularTempoTotalDoDia() {
-        let periodoManha = document.querySelector(`#total_manha_${idReferencia[2]}`).innerText.split(':')
-        let periodoTarde = document.querySelector(`#total_tarde_${idReferencia[2]}`).innerText.split(':')
-        let periodoNoite = document.querySelector(`#total_noite_${idReferencia[2]}`).innerText.split(':')
+        let periodoManha = 0
+        let periodoTarde = 0
+        let periodoNoite = 0
+        let horas = 0
+        let minutos = 0
+        for (let i = 1; i <= 7; i++) {
+            periodoManha = document.querySelector(`#total_manha_0${i}`).innerText.split(':')
+            periodoTarde = document.querySelector(`#total_tarde_0${i}`).innerText.split(':')
+            periodoNoite = document.querySelector(`#total_noite_0${i}`).innerText.split(':')
+            horas = parseInt(periodoManha[0]) + parseInt(periodoTarde[0]) + parseInt(periodoNoite[0])
+            minutos = parseInt(periodoManha[1]) + parseInt(periodoTarde[1]) + parseInt(periodoNoite[1])
 
-        let horas = parseInt(periodoManha[0]) + parseInt(periodoTarde[0]) + parseInt(periodoNoite[0])
-        let minutos = parseInt(periodoManha[1]) + parseInt(periodoTarde[1]) + parseInt(periodoNoite[1])
+            while (minutos > 59) {
+                horas++
+                minutos -= 60
+            }
 
-        while (minutos > 59) {
-            horas++
-            minutos -= 60
+            document.querySelector(`#total_dia_0${i}`).innerText =
+                horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0')
         }
-
-        return horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0')
     }
 
-    function calcularTempo() {
-        let horaInicio = document.querySelector('#tempo-inicio').value.split(':')
-        let horaFim = document.querySelector('#tempo-final').value.split(':')
+    function calcularTempoDoDia(periodo, num) {
+        let horaInicio = document.querySelector(`#inicio_${periodo}_0${num}`).innerText.split(':')
+        let horaFim = document.querySelector(`#fim_${periodo}_0${num}`).innerText.split(':')
 
-        let horaInicioHoras = parseInt(horaInicio[0])
-        let horaInicioMinutos = parseInt(horaInicio[1])
-        let horaFimHoras = parseInt(horaFim[0])
-        let horaFimMinutos = parseInt(horaFim[1])
+        document.querySelector(`#total_${periodo}_0${num}`).innerText =
+            tempoEntreInicioEFim(horaInicio, horaFim)
+    }
 
-        while (horaInicioHoras > horaFimHoras) {
-            horaInicioHoras > 0 ? horaInicioHoras-- : horaInicioHoras = 23
-            horaFimHoras > 0 ? horaFimHoras-- : horaFimHoras = 23
+    function tempoEntreInicioEFim(horaInicio, horaFim) {
+        while (parseInt(horaInicio[0]) > parseInt(horaFim[0])) {
+            parseInt(horaInicio[0]) > 0 ? parseInt(horaInicio[0])-- : parseInt(horaInicio[0]) = 23
+            parseInt(horaFim[0]) > 0 ? parseInt(horaFim[0])-- : parseInt(horaFim[0]) = 23
         }
 
-        let horas = horaFimHoras - horaInicioHoras
-        let minutos = horaFimMinutos - horaInicioMinutos
+        let horas = parseInt(horaFim[0]) - parseInt(horaInicio[0])
+        let minutos = parseInt(horaFim[1]) - parseInt(horaInicio[1])
 
         if (minutos < 0) {
             horas--
             minutos += 60
         }
-
-        return [
-            horaInicio.join(':'),
-            horaFim.join(':'),
-            (horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0'))
-        ]
+        return horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0')
     }
 
     // Manipulando os dados 
     function carregarDados() {
         const dadosSalvos = JSON.parse(localStorage.getItem('BaseDadosProgramacaoSemanal'))
         let periodos = ['manha', 'tarde', 'noite']
-        for (let periodo of periodos) {
-            for (let num = 1; num <= 7; num++) {
+        for (let num = 1; num <= 7; num++) {
+            for (let periodo of periodos) {
                 document.querySelector(`#inicio_${periodo}_0${num}`).innerText =
                     dadosSalvos[`${periodo}`][`dia0${num}`].horaInicio
                 document.querySelector(`#fim_${periodo}_0${num}`).innerText =
                     dadosSalvos[`${periodo}`][`dia0${num}`].horaFim
                 document.querySelector(`#texto_${periodo}_0${num}`).innerText =
                     dadosSalvos[`${periodo}`][`dia0${num}`].conteudo
-                document.querySelector(`#total_${periodo}_0${num}`).innerText =
-                    dadosSalvos[`${periodo}`][`dia0${num}`].intervalo
+
+                calcularTempoDoDia(periodo, num)
             }
         }
-        totalDiaStart()
-        calcularTempoTotal()
-    }
-
-    function totalDiaStart() {
-        let periodos = ['manha', 'tarde', 'noite']
-        let horas = 0
-        let minutos = 0
-        let pegarTempo = 0
-
-        for (let num = 1; num <= 7; num++) {
-            for (let periodo of periodos) {
-                pegarTempo = document.querySelector(`#total_${periodo}_0${num}`).innerText.split(':')
-                horas += parseInt(pegarTempo[0])
-                minutos += parseInt(pegarTempo[1])
-            }
-            while (minutos > 59) {
-                horas++
-                minutos -= 60
-            }
-            document.querySelector(`#total_dia_0${num}`).innerText =
-                horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0')
-            horas = 0
-            minutos = 0
-            pegarTempo = 0
-        }
+        calcularTempoTotalDoDia()
+        calcularTempoTotalDaSemana()
     }
 
     function salvarArquivoDeDadosJson() {
+        if (!localStorage.BaseDadosProgramacaoSemanal) {
+            criarArquivoDeDadosJson()
+        }
         const dadosSalvos = JSON.parse(localStorage.getItem('BaseDadosProgramacaoSemanal'))
         localStorage.clear('BaseDadosProgramacaoSemanal')
 
@@ -226,8 +183,6 @@
                     document.querySelector(`#fim_${periodo}_0${num}`).innerText
                 dadosSalvos[`${periodo}`][`dia0${num}`].conteudo =
                     document.querySelector(`#texto_${periodo}_0${num}`).innerText
-                dadosSalvos[`${periodo}`][`dia0${num}`].intervalo =
-                    document.querySelector(`#total_${periodo}_0${num}`).innerText
             }
         }
 
@@ -238,31 +193,31 @@
     function criarArquivoDeDadosJson() {
         const BaseDados = {
             manha: {
-                dia01: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia02: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia03: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia04: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia05: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia06: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia07: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia01: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia02: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia03: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia04: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia05: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia06: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia07: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
             },
             tarde: {
-                dia01: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia02: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia03: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia04: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia05: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia06: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia07: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia01: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia02: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia03: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia04: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia05: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia06: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia07: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
             },
             noite: {
-                dia01: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia02: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia03: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia04: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia05: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia06: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
-                dia07: { horaInicio: "00:00", horaFim: "00:00", conteudo: "", intervalo: "00:00" },
+                dia01: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia02: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia03: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia04: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia05: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia06: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
+                dia07: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
             }
         }
 
