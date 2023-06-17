@@ -11,7 +11,7 @@
     document.querySelector('#tempo-final').addEventListener('input', mudarIntervaloTempo)
     document.querySelector('#aplicar').addEventListener('click', aplicarAlteracoes)
 
-    // funcões
+    // ## Funcões de execução e manipulação da aplicação. ##
     function firstStart() {
         document.querySelectorAll('.texto-nota').forEach(
             dado => dado.addEventListener('click', abrirEditor))
@@ -82,53 +82,19 @@
         salvarArquivoDeDadosJson()
     }
 
-    function calcularTempoTotalDaSemana() {
-        let horas = 0
-        let minutos = 0
-        let pegarTempo = 0
-        for (let i = 1; i <= 7; i++) {
-            pegarTempo = document.querySelector(`#total_dia_0${i}`).innerText.split(':')
-            horas += parseInt(pegarTempo[0])
-            minutos += parseInt(pegarTempo[1])
-        }
+    // ## Funções para cálculos para períodos de tempo. ##
+    function somarPeriodosDeTempo(tempo01, tempo02) {
+        let intervalo = [tempo01.split(':'), tempo02.split(':')]
+
+        let horas = parseInt(intervalo[0][0]) + parseInt(intervalo[1][0])
+        let minutos = parseInt(intervalo[0][1]) + parseInt(intervalo[1][1])
+
         while (minutos > 59) {
             horas++
             minutos -= 60
         }
 
-        document.querySelector('#total_da_semana').innerText =
-            horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0')
-    }
-
-    function calcularTempoTotalDoDia() {
-        let periodoManha = 0
-        let periodoTarde = 0
-        let periodoNoite = 0
-        let horas = 0
-        let minutos = 0
-        for (let i = 1; i <= 7; i++) {
-            periodoManha = document.querySelector(`#total_manha_0${i}`).innerText.split(':')
-            periodoTarde = document.querySelector(`#total_tarde_0${i}`).innerText.split(':')
-            periodoNoite = document.querySelector(`#total_noite_0${i}`).innerText.split(':')
-            horas = parseInt(periodoManha[0]) + parseInt(periodoTarde[0]) + parseInt(periodoNoite[0])
-            minutos = parseInt(periodoManha[1]) + parseInt(periodoTarde[1]) + parseInt(periodoNoite[1])
-
-            while (minutos > 59) {
-                horas++
-                minutos -= 60
-            }
-
-            document.querySelector(`#total_dia_0${i}`).innerText =
-                horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0')
-        }
-    }
-
-    function calcularTempoDoDia(periodo, num) {
-        let horaInicio = document.querySelector(`#inicio_${periodo}_0${num}`).innerText.split(':')
-        let horaFim = document.querySelector(`#fim_${periodo}_0${num}`).innerText.split(':')
-
-        document.querySelector(`#total_${periodo}_0${num}`).innerText =
-            tempoEntreInicioEFim(horaInicio, horaFim)
+        return horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0')
     }
 
     function tempoEntreInicioEFim(horaInicio, horaFim) {
@@ -147,7 +113,35 @@
         return horas.toString().padStart(2, '0') + ':' + minutos.toString().padStart(2, '0')
     }
 
-    // Manipulando os dados 
+    function calcularTempoDoDia(periodo, num) {
+        let horaInicio = document.querySelector(`#inicio_${periodo}_0${num}`).innerText.split(':')
+        let horaFim = document.querySelector(`#fim_${periodo}_0${num}`).innerText.split(':')
+
+        document.querySelector(`#total_${periodo}_0${num}`).innerText =
+            tempoEntreInicioEFim(horaInicio, horaFim)
+    }
+
+    function calcularTempoTotalDoDia() {
+        let tempo = '00:00'
+        for (let i = 1; i <= 7; i++) {
+            tempo = somarPeriodosDeTempo(tempo, document.querySelector(`#total_manha_0${i}`).innerText)
+            tempo = somarPeriodosDeTempo(tempo, document.querySelector(`#total_tarde_0${i}`).innerText)
+            tempo = somarPeriodosDeTempo(tempo, document.querySelector(`#total_noite_0${i}`).innerText)
+
+            document.querySelector(`#total_dia_0${i}`).innerText = tempo
+            tempo = '00:00'
+        }
+    }
+
+    function calcularTempoTotalDaSemana() {
+        let tempo = '00:00'
+        for (let i = 1; i <= 7; i++) {
+            tempo = somarPeriodosDeTempo(tempo, document.querySelector(`#total_dia_0${i}`).innerText)
+        }
+        document.querySelector('#total_da_semana').innerText = tempo
+    }
+
+    // ## Funções para manipular os dados gerados. ##
     function carregarDados() {
         const dadosSalvos = JSON.parse(localStorage.getItem('BaseDadosProgramacaoSemanal'))
         let periodos = ['manha', 'tarde', 'noite']
@@ -225,7 +219,7 @@
         localStorage.setItem('BaseDadosProgramacaoSemanal', jsonData)
     }
 
-    // Primeira execução
+    // ## Primeira execução da aplicação. ##
     firstStart()
 
 })()
