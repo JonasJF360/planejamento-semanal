@@ -38,7 +38,7 @@
         let diasDaSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
         document.querySelector('#editor h1').innerText =
             (idElementoClicado[1] == 'manha' ? 'manhã' : idElementoClicado[1]) +
-            ': ' + diasDaSemana[parseInt(idElementoClicado[2])]
+            ': ' + diasDaSemana[parseInt(idElementoClicado[2]) - 1]
 
         if (document.querySelector(`#total_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText != "00:00") {
             document.querySelector('#tempo-inicio').value = document.querySelector(`#inicio_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText
