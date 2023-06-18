@@ -178,6 +178,12 @@ div#editar-valor {
     padding: 1px;
 }
 
+.tempo-erro {
+    color: rgb(192, 9, 9) !important;
+    font-weight: bold;
+    background-color: #ffc1cd !important;
+}
+
 #intervalo_tempo {
     width: 60px;
     text-align: center;

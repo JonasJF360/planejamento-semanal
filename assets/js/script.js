@@ -7,8 +7,8 @@
         document.querySelector('#editar-valor').style.display = 'none'
     })
 
-    document.querySelector('#tempo-inicio').addEventListener('input', mudarIntervaloTempo)
-    document.querySelector('#tempo-final').addEventListener('input', mudarIntervaloTempo)
+    document.querySelector('#tempo-inicio').addEventListener('input', verificarIntervaloDigitado)
+    document.querySelector('#tempo-final').addEventListener('input', verificarIntervaloDigitado)
     document.querySelector('#aplicar').addEventListener('click', aplicarAlteracoes)
 
     // ## Funcões de execução e manipulação da aplicação. ##
@@ -40,10 +40,26 @@
             (idElementoClicado[1] == 'manha' ? 'manhã' : idElementoClicado[1]) +
             ': ' + diasDaSemana[parseInt(idElementoClicado[2]) - 1]
 
-        if (document.querySelector(`#total_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText != "00:00") {
-            document.querySelector('#tempo-inicio').value = document.querySelector(`#inicio_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText
-            document.querySelector('#tempo-final').value = document.querySelector(`#fim_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText
+        let primeiroIntervalo = "00:00"
+        let segundoItervalo = "00:00"
+
+        if (idElementoClicado[1] == 'manha') {
+            primeiroIntervalo = "06:00"
+            segundoItervalo = "07:00"
+        } else if (idElementoClicado[1] == 'tarde') {
+            primeiroIntervalo = "12:00"
+            segundoItervalo = "13:00"
+        } else {
+            primeiroIntervalo = "18:00"
+            segundoItervalo = "17:00"
         }
+
+        if (document.querySelector(`#total_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText != "00:00") {
+            primeiroIntervalo = document.querySelector(`#inicio_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText
+            segundoItervalo = document.querySelector(`#fim_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText
+        }
+        document.querySelector('#tempo-inicio').value = primeiroIntervalo
+        document.querySelector('#tempo-final').value = segundoItervalo
 
         mudarIntervaloTempo()
 
@@ -54,9 +70,39 @@
         }
     }
 
+    function verificarIntervaloDigitado(e) {
+        e.preventDefault()
+        let inicio = document.querySelector('#tempo-inicio').value.split(':').map(num => parseInt(num))
+        let fim = document.querySelector('#tempo-final').value.split(':').map(num => parseInt(num))
+
+        let corInput = [true, true]
+
+        if (idElementoClicado[1] == 'manha') {
+            (inicio[0] < 5 || inicio[0] > 11) ? corInput[0] = false : corInput[0] = true;
+            (fim[0] < 5 || fim[0] > 11) ? corInput[1] = false : corInput[1] = true;
+        } else if (idElementoClicado[1] == 'tarde') {
+            (inicio[0] < 12 || inicio[0] > 17) ? corInput[0] = false : corInput[0] = true;
+            (fim[0] < 12 || fim[0] > 17) ? corInput[1] = false : corInput[1] = true;
+        } else {
+            (inicio[0] > 4 || inicio[0] < 18) ? corInput[0] = false : corInput[0] = true;
+            (fim[0] > 4 || fim[0] < 18) ? corInput[1] = false : corInput[1] = true;
+        }
+
+        (!corInput[0])
+            ? document.querySelector('#tempo-inicio').classList.add('tempo-erro')
+            : document.querySelector('#tempo-inicio').classList.remove('tempo-erro');
+        (!corInput[1])
+            ? document.querySelector('#tempo-final').classList.add('tempo-erro')
+            : document.querySelector('#tempo-final').classList.remove('tempo-erro');
+
+        document.querySelector('button#aplicar').disabled = !(corInput[0] && corInput[1])
+
+        mudarIntervaloTempo()
+    }
+
     function mudarIntervaloTempo() {
-        let horaInicio = document.querySelector('#tempo-inicio').value.split(':')
-        let horaFim = document.querySelector('#tempo-final').value.split(':')
+        let horaInicio = document.querySelector('#tempo-inicio').value
+        let horaFim = document.querySelector('#tempo-final').value
 
         document.querySelector('#intervalo_tempo').value =
             tempoEntreInicioEFim(horaInicio, horaFim)
@@ -84,10 +130,12 @@
 
     // ## Funções para cálculos para períodos de tempo. ##
     function somarPeriodosDeTempo(tempo01, tempo02) {
-        let intervalo = [tempo01.split(':'), tempo02.split(':')]
+        let intervalo = [
+            tempo01.split(':').map(num => parseInt(num)),
+            tempo02.split(':').map(num => parseInt(num))]
 
-        let horas = parseInt(intervalo[0][0]) + parseInt(intervalo[1][0])
-        let minutos = parseInt(intervalo[0][1]) + parseInt(intervalo[1][1])
+        let horas = intervalo[0][0] + intervalo[1][0]
+        let minutos = intervalo[0][1] + intervalo[1][1]
 
         while (minutos > 59) {
             horas++
@@ -98,13 +146,16 @@
     }
 
     function tempoEntreInicioEFim(horaInicio, horaFim) {
-        while (parseInt(horaInicio[0]) > parseInt(horaFim[0])) {
-            parseInt(horaInicio[0]) > 0 ? parseInt(horaInicio[0])-- : parseInt(horaInicio[0]) = 23
-            parseInt(horaFim[0]) > 0 ? parseInt(horaFim[0])-- : parseInt(horaFim[0]) = 23
+        let inicio = horaInicio.split(':').map(num => parseInt(num))
+        let fim = horaFim.split(':').map(num => parseInt(num))
+
+        while (inicio[0] > fim[0]) {
+            inicio[0] > 0 ? inicio[0]-- : inicio[0] = 23
+            fim[0] > 0 ? fim[0]-- : fim[0] = 23
         }
 
-        let horas = parseInt(horaFim[0]) - parseInt(horaInicio[0])
-        let minutos = parseInt(horaFim[1]) - parseInt(horaInicio[1])
+        let horas = fim[0] - inicio[0]
+        let minutos = fim[1] - inicio[1]
 
         if (minutos < 0) {
             horas--
@@ -114,8 +165,8 @@
     }
 
     function calcularTempoDoDia(periodo, num) {
-        let horaInicio = document.querySelector(`#inicio_${periodo}_0${num}`).innerText.split(':')
-        let horaFim = document.querySelector(`#fim_${periodo}_0${num}`).innerText.split(':')
+        let horaInicio = document.querySelector(`#inicio_${periodo}_0${num}`).innerText
+        let horaFim = document.querySelector(`#fim_${periodo}_0${num}`).innerText
 
         document.querySelector(`#total_${periodo}_0${num}`).innerText =
             tempoEntreInicioEFim(horaInicio, horaFim)
