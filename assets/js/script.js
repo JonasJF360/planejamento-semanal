@@ -112,7 +112,6 @@
         return confirm(texto)
     }
 
-
     function aplicarAlteracoes(e) {
         e.preventDefault()
 
