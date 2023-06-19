@@ -95,8 +95,6 @@
             ? document.querySelector('#tempo-final').classList.add('tempo-erro')
             : document.querySelector('#tempo-final').classList.remove('tempo-erro');
 
-        document.querySelector('button#aplicar').disabled = !(corInput[0] && corInput[1])
-
         mudarIntervaloTempo()
     }
 
@@ -108,8 +106,23 @@
             tempoEntreInicioEFim(horaInicio, horaFim)
     }
 
+    function mensagemAlerta() {
+        let texto = `Você está tentando colocar um período de tempo que foge da regra da aplicação. Gostaria de continuar assim mesmo?`
+
+        return confirm(texto)
+    }
+
+
     function aplicarAlteracoes(e) {
         e.preventDefault()
+
+        if (document.querySelector('#tempo-inicio').classList[0] == 'tempo-erro'
+            || document.querySelector('#tempo-final').classList[0] == 'tempo-erro') {
+            if (!mensagemAlerta()) {
+                return
+            }
+        }
+
         document.querySelector(`#${idElementoClicado.join('_')}`).innerText = conteudoEditor.value
 
         let tempo = ["00:00", "00:00", "00:00"]
