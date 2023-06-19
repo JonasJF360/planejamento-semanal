@@ -84,8 +84,8 @@
             (inicio[0] < 12 || inicio[0] > 17) ? corInput[0] = false : corInput[0] = true;
             (fim[0] < 12 || fim[0] > 17) ? corInput[1] = false : corInput[1] = true;
         } else {
-            (inicio[0] > 4 || inicio[0] < 18) ? corInput[0] = false : corInput[0] = true;
-            (fim[0] > 4 || fim[0] < 18) ? corInput[1] = false : corInput[1] = true;
+            !(inicio[0] < 5 || inicio[0] >= 18) ? corInput[0] = false : corInput[0] = true;
+            !(fim[0] < 5 || fim[0] >= 18) ? corInput[1] = false : corInput[1] = true;
         }
 
         (!corInput[0])
@@ -112,12 +112,18 @@
         e.preventDefault()
         document.querySelector(`#${idElementoClicado.join('_')}`).innerText = conteudoEditor.value
 
-        document.querySelector(`#inicio_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText =
-            document.querySelector('#tempo-inicio').value
-        document.querySelector(`#fim_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText =
-            document.querySelector('#tempo-final').value
-        document.querySelector(`#total_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText =
-            document.querySelector('#intervalo_tempo').value
+        let tempo = ["00:00", "00:00", "00:00"]
+        if (conteudoEditor.value) {
+            tempo[0] = document.querySelector('#tempo-inicio').value
+            tempo[1] = document.querySelector('#tempo-final').value
+            tempo[2] = document.querySelector('#intervalo_tempo').value
+        }
+        document.querySelector(`#inicio_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText
+            = tempo[0]
+        document.querySelector(`#fim_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText
+            = tempo[1]
+        document.querySelector(`#total_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText
+            = tempo[2]
 
         document.querySelector('#editar-valor').style.display = 'none'
         conteudoEditor.value = ''
