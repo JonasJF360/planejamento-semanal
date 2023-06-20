@@ -72,6 +72,11 @@ h6 {
     font-size: 13pt;
 }
 
+ul li {
+    list-style: inside;
+    padding-top: 4px;
+}
+
 .cor-domingo {
     background-color: var(--periwinkle);
 }
@@ -119,18 +124,33 @@ div#editar-valor {
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     background-color: var(--preto-transparente80);
 }
 
-#editor {
+#container-mensagem {
+    display: none;
+    background-color: var(--light-green);
+}
+#conteudo-mensagem {
+    width: 100%;
+    height: 300px;
+    background-color: var(--cream);
+    padding: 4px;
+    overflow: auto;
+    overscroll-behavior-y: contain;
+}
+
+#editor,
+#container-mensagem {
     width: 100%;
     max-width: 450px;
     height: 350px;
     padding: 10px;
 }
 
-#editor div.fechar-editor {
+#editor div.fechar-editor,
+#container-mensagem div.fechar-editor {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -146,11 +166,13 @@ div#editar-valor {
     cursor: pointer;
 }
 
-#editor div.fechar-editor:hover {
+#editor div.fechar-editor:hover,
+#container-mensagem div.fechar-editor:hover {
     background-color: var(--vermelho-crimson-claro);
 }
 
-#editor h1 {
+#editor h1,
+#container-mensagem h1 {
     text-transform: uppercase;
     font-size: 20pt;
     text-align: center;
@@ -229,11 +251,15 @@ textarea#conteudo {
 }
 
 #titulo-principal {
-    padding: 4px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 4px 8px;
     background-color: var(--cinza-azulado);
 }
 
 #titulo-principal h1 {
+    width: 100%;
     font-size: 14pt;
     color: var(--amarelo);
     word-spacing: 10px;
@@ -242,6 +268,24 @@ textarea#conteudo {
     text-align: center;
     text-transform: uppercase;
 
+}
+
+#titulo-principal div:last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 18px;
+    height: 18px;
+    background-color: var(--amarelo);
+    text-align: center;
+    border-radius: 50%;
+    font-size: 10pt;
+    font-weight: bolder;
+}
+
+#titulo-principal div:last-child:hover {
+    background-color: var(--branco);
+    cursor: pointer;
 }
 
 .coluna-dias,
@@ -436,24 +480,51 @@ div.container-total div {
     }
 }
 
-@media (max-width: 250px) {
+@media (max-width: 270px) {
+    #titulo-principal {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #titulo-principal div:first-child {
+        display: none;
+    }
+
+    #titulo-principal div:last-child {
+        width: 65px;
+        border-radius: 5px;
+        margin-top: 2px;
+
+    }
+
+    #titulo-principal div:last-child::before {
+        content: "AJUDA";
+    }
+
     #corpo-da-pagina {
         width: 95%;
     }
 
 }
 
-@media (max-width: 190px) {
+@media (max-width: 209px) {
 
     div#editar-valor,
     #corpo-da-pagina {
         display: none;
     }
 
+    #mensagem-tela {
+        width: 100%;
+        height: 100%;
+        padding: 10% 2px;
+        text-align: center;
+    }
+
     #mensagem-tela::after {
         content: "Tamanho de tela não suportado.";
         text-transform: uppercase;
-        font-size: 10pt;
+        font-size: 12pt;
         padding: 2px;
     }
 }

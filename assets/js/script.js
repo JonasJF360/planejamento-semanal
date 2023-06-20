@@ -2,14 +2,17 @@
     const idElementoClicado = [0]
 
     const conteudoEditor = document.querySelector('#conteudo')
-    document.querySelector('.fechar-editor').addEventListener('click', (e) => {
+    document.querySelectorAll('.fechar-editor').forEach(item => item.addEventListener('click', (e) => {
         e.preventDefault()
         document.querySelector('#editar-valor').style.display = 'none'
-    })
+        document.querySelector('#editor').style.display = 'block'
+        document.querySelector('#container-mensagem').style.display = 'none'
+    }))
 
     document.querySelector('#tempo-inicio').addEventListener('input', verificarIntervaloDigitado)
     document.querySelector('#tempo-final').addEventListener('input', verificarIntervaloDigitado)
     document.querySelector('#aplicar').addEventListener('click', aplicarAlteracoes)
+    document.querySelector('#ajuda').addEventListener('click', abrirAjuda)
 
     // ## Funcões de execução e manipulação da aplicação. ##
     function firstStart() {
@@ -19,6 +22,24 @@
         if (localStorage.BaseDadosProgramacaoSemanal) {
             carregarDados()
         }
+    }
+    function caixaMensagem() {
+        document.querySelector('#editar-valor').style.display = 'flex'
+        document.querySelector('#editor').style.display = 'none'
+        document.querySelector('#container-mensagem').style.display = 'block'
+        document.querySelector('#conteudo-mensagem').innerHTML = ''
+    }
+
+    function abrirAjuda(e) {
+        e.preventDefault()
+        caixaMensagem()
+        document.querySelector('#container-mensagem h1').innerText = 'Menu de ajuda'
+
+        fetch("./assets/data/dados.json").then(response => {
+            response.json().then(dado => {
+                document.querySelector('#conteudo-mensagem').innerHTML = dado.ajuda.join(``)
+            })
+        })
     }
 
     const abrirEditor = (e) => {
@@ -234,23 +255,27 @@
         if (!localStorage.BaseDadosProgramacaoSemanal) {
             criarArquivoDeDadosJson()
         }
-        const dadosSalvos = JSON.parse(localStorage.getItem('BaseDadosProgramacaoSemanal'))
-        localStorage.clear('BaseDadosProgramacaoSemanal')
+        if (document.querySelector('#total_da_semana').innerText == '00:00') {
+            localStorage.clear('BaseDadosProgramacaoSemanal')
+        } else {
+            const dadosSalvos = JSON.parse(localStorage.getItem('BaseDadosProgramacaoSemanal'))
+            localStorage.clear('BaseDadosProgramacaoSemanal')
 
-        let periodos = ['manha', 'tarde', 'noite']
-        for (let periodo of periodos) {
-            for (let num = 1; num <= 7; num++) {
-                dadosSalvos[`${periodo}`][`dia0${num}`].horaInicio =
-                    document.querySelector(`#inicio_${periodo}_0${num}`).innerText
-                dadosSalvos[`${periodo}`][`dia0${num}`].horaFim =
-                    document.querySelector(`#fim_${periodo}_0${num}`).innerText
-                dadosSalvos[`${periodo}`][`dia0${num}`].conteudo =
-                    document.querySelector(`#texto_${periodo}_0${num}`).innerText
+            let periodos = ['manha', 'tarde', 'noite']
+            for (let periodo of periodos) {
+                for (let num = 1; num <= 7; num++) {
+                    dadosSalvos[`${periodo}`][`dia0${num}`].horaInicio =
+                        document.querySelector(`#inicio_${periodo}_0${num}`).innerText
+                    dadosSalvos[`${periodo}`][`dia0${num}`].horaFim =
+                        document.querySelector(`#fim_${periodo}_0${num}`).innerText
+                    dadosSalvos[`${periodo}`][`dia0${num}`].conteudo =
+                        document.querySelector(`#texto_${periodo}_0${num}`).innerText
+                }
             }
-        }
 
-        const jsonData = JSON.stringify(dadosSalvos)
-        localStorage.setItem('BaseDadosProgramacaoSemanal', jsonData)
+            const jsonData = JSON.stringify(dadosSalvos)
+            localStorage.setItem('BaseDadosProgramacaoSemanal', jsonData)
+        }
     }
 
     function criarArquivoDeDadosJson() {
