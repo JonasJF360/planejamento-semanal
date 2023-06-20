@@ -4,13 +4,13 @@
         "Criado por Jonas J. Ferreira."
     ],
     "ajuda": [
-        "<h3>Siga o passo-a-passo para planejar a sua semana nessa aplicação.</h3>",
-        "<p><br><b>Essa aplicação possibilita criar tarefas com hora de início e fim de uma forma rápida e efácil:</b></p>",
-        "<ul><li>Para adicionar uma tarefa basta clicar na caixa de texto do dia desejado no sei respectivo período (Manhã, tarde ou noite).</li>",
-        "<li>Após editado basta clicar em aplicar e o tempo será calculado automáricamente.</li>",
-        "<li>Para apagar uma tarefa basta clicar nela para abrir a caixa de edição. Apague o conteúdo e clique em aplicar.</li>",
+        "<h3>Siga o passo-a-passo para planejar a sua semana.</h3>",
+        "<p><br><b>Essa aplicação possibilita criar tarefas com hora de início e fim de uma forma rápida e fácil:</b></p>",
+        "<ul><li>Para adicionar uma tarefa basta clicar na caixa de texto do dia desejado em seu respectivo período (Manhã, Tarde ou Noite).</li>",
+        "<li>Após editado basta clicar em aplicar e o tempo será calculado automáticamente.</li>",
+        "<li>Para apagar uma tarefa basta clicar nela para abrir a caixa de edição, apagar o conteúdo e clicar em aplicar.</li>",
         "<li>Todos os dados editados ficarão armazenados no navegador.</li>",
-        "<li>Os dados armazenados ficam somente no navegador que está sendo usado para editar.</li>",
+        "<li>Os dados armazenados ficam somente no navegador que está sendo usado para edita-los.</li>",
         "<li>Os dados são apagados sempre que não tem nenhuma tarefa agendada.</li></ul>",
         "<br><h4>Criado por: Jonas J. Ferreira.</h4>",
         "<a href='https://github.com/JonasJF360/planejamento-semanal' target='_blank'>Repositório do projeto no GitHub.</a>"
