@@ -10,7 +10,7 @@ A ideia inicial éra ter um página com visão ampla de no mínimo 1366x768 para
 
 ## Tecnologias utilizadas
 - **HTML 5** (Estrutura);
-- **CSS 3** (Estilização e esponsabilidade);
+- **CSS 3** (Estilização e responsabilidade);
 - **JAVASCRIPT** (Iteração com o usuário);
 - **JSON** (Manipulação e armazenamento de dados).
 
