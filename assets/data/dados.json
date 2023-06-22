@@ -12,7 +12,8 @@
         "<li>Todos os dados editados ficarão armazenados no navegador.</li>",
         "<li>Os dados armazenados ficam somente no navegador que está sendo usado para edita-los.</li>",
         "<li>Os dados são apagados sempre que não tem nenhuma tarefa agendada.</li></ul>",
+        "<p><br>Apesar de funcionar corretamente em diversos dispositivos, o desenvolvimento dessa aplicação foi pensando para ser utilizado em computadores com display (tela) de no mínimo 1200px de largura.</p>",
         "<br><h4>Criado por: Jonas J. Ferreira.</h4>",
-        "<a href='https://github.com/JonasJF360/planejamento-semanal' target='_blank'>Repositório do projeto no GitHub.</a>"
+        "<a href='https://github.com/JonasJF360/planejamento-semanal' target='_blank'>Clique aqui para acessar o repositório do projeto no GitHub.</a>"
     ]
 }
