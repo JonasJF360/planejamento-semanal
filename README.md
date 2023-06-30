@@ -1,6 +1,8 @@
-# Planejamento Semanal
+<img src="./assets/img/note_icon.png" style="width: 200px;" align="left">
 
-> [**Clique aqui para acessar a ferramenta.**](https://jonasjf360.github.io/planejamento-semanal/)
+# Planejamento Semanal:
+
+### [**Clique aqui para acessar a ferramenta.**](https://jonasjf360.github.io/planejamento-semanal/)
 
 Esta é uma aplicação para planejar as horas a serem gastas durante a semana.
 
