@@ -16,6 +16,7 @@
 
     // ## Funcões de execução e manipulação da aplicação. ##
     function firstStart() {
+        criarDias()
         document.querySelectorAll('.texto-nota').forEach(
             dado => dado.addEventListener('click', abrirEditor))
 
@@ -72,7 +73,7 @@
             segundoItervalo = "13:00"
         } else {
             primeiroIntervalo = "18:00"
-            segundoItervalo = "17:00"
+            segundoItervalo = "19:00"
         }
 
         if (document.querySelector(`#total_${idElementoClicado[1]}_${idElementoClicado[2]}`).innerText != "00:00") {
@@ -280,38 +281,76 @@
 
     function criarArquivoDeDadosJson() {
         const BaseDados = {
-            manha: {
-                dia01: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia02: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia03: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia04: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia05: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia06: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia07: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-            },
-            tarde: {
-                dia01: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia02: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia03: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia04: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia05: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia06: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia07: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-            },
-            noite: {
-                dia01: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia02: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia03: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia04: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia05: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia06: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-                dia07: { horaInicio: "00:00", horaFim: "00:00", conteudo: "" },
-            }
+            manha: {},
+            tarde: {},
+            noite: {}
+        };
+
+        for (let i = 1; i <= 7; i++) {
+            BaseDados.manha[`dia0${i}`] = { horaInicio: "00:00", horaFim: "00:00", conteudo: "" };
+            BaseDados.tarde[`dia0${i}`] = { horaInicio: "00:00", horaFim: "00:00", conteudo: "" };
+            BaseDados.noite[`dia0${i}`] = { horaInicio: "00:00", horaFim: "00:00", conteudo: "" };
         }
 
-        const jsonData = JSON.stringify(BaseDados)
-        localStorage.setItem('BaseDadosProgramacaoSemanal', jsonData)
+        const jsonData = JSON.stringify(BaseDados);
+        localStorage.setItem('BaseDadosProgramacaoSemanal', jsonData);
     }
+
+
+    function criarDias() {
+        const periodos = [
+            ['manha', 'Manhã'],
+            ['tarde', 'Tarde'],
+            ['noite', 'Noite']]
+            
+            const dias = [
+                ['domingo', 'Domingo'],
+                ['segunda', 'Segunda'],
+                ['terca', 'Terça'],
+                ['quarta', 'Quarta'],
+                ['quinta', 'Quinta'],
+                ['sexta', 'Sexta'],
+                ['sabado', 'Sábado']
+            ]
+            
+        const principal = document.querySelector('#conteudo-principal > section')
+
+        principal.innerHTML = periodos.map(periodo => {
+            return `
+                <!-- Área do período da ${periodo[1]} -->
+                <div class="periodo">
+                    <h2>Período da ${periodo[1]}</h2>
+                </div>
+        
+                <div class="espacamento-flex">
+                    ${dias.map((dia, index) => {
+                return `
+                            <div class="container-periodo-dia">
+                                <div class="coluna-dias-responsivo cor-${dia[0]}">${dia[1]}</div>
+                                <div class="intervalo-hora">
+                                    <div id="inicio_${periodo[0]}_0${index + 1}">00:00</div>
+                                    <div id="fim_${periodo[0]}_0${index + 1}">00:00</div>
+                                </div>
+                                <div id="texto_${periodo[0]}_0${index + 1}" class="texto-nota cor-${dia[0]}"></div>
+                                <div class="total-periodo-dia" id="total_${periodo[0]}_0${index + 1}">00:00</div>
+                            </div>
+                        `;
+            }).join('')}
+                </div>
+            `;
+        }).join('');
+
+
+        const total = document.querySelector('#total-por-dia')
+
+        total.innerHTML = dias.map((dia, index) => {
+            return `<div class="container-total">
+                        <div class="coluna-dias-responsivo cor-${dia[0]}">${dia[1]}</div>
+                        <div id="total_dia_0${index + 1}" class="cor-${dia[0]}">00:00</div>
+                    </div>
+                    `}).join('')
+    }
+
 
     // ## Primeira execução da aplicação. ##
     firstStart()
