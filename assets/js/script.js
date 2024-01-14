@@ -302,19 +302,23 @@
             ['manha', 'Manhã'],
             ['tarde', 'Tarde'],
             ['noite', 'Noite']]
-            
-            const dias = [
-                ['domingo', 'Domingo'],
-                ['segunda', 'Segunda'],
-                ['terca', 'Terça'],
-                ['quarta', 'Quarta'],
-                ['quinta', 'Quinta'],
-                ['sexta', 'Sexta'],
-                ['sabado', 'Sábado']
-            ]
-            
-        const principal = document.querySelector('#conteudo-principal > section')
 
+        const dias = [
+            ['domingo', 'Domingo'],
+            ['segunda', 'Segunda'],
+            ['terca', 'Terça'],
+            ['quarta', 'Quarta'],
+            ['quinta', 'Quinta'],
+            ['sexta', 'Sexta'],
+            ['sabado', 'Sábado']
+        ]
+
+        const diasDaSemana = document.querySelector('#coluna-dias')
+        diasDaSemana.innerHTML = dias.map(dia => {
+            return `<div class="cor-${dia[0]}">${dia[1]}</div>`
+        }).join('')
+
+        const principal = document.querySelector('#conteudo-principal > section')
         principal.innerHTML = periodos.map(periodo => {
             return `
                 <!-- Área do período da ${periodo[1]} -->
@@ -325,24 +329,20 @@
                 <div class="espacamento-flex">
                     ${dias.map((dia, index) => {
                 return `
-                            <div class="container-periodo-dia">
-                                <div class="coluna-dias-responsivo cor-${dia[0]}">${dia[1]}</div>
-                                <div class="intervalo-hora">
-                                    <div id="inicio_${periodo[0]}_0${index + 1}">00:00</div>
-                                    <div id="fim_${periodo[0]}_0${index + 1}">00:00</div>
-                                </div>
-                                <div id="texto_${periodo[0]}_0${index + 1}" class="texto-nota cor-${dia[0]}"></div>
-                                <div class="total-periodo-dia" id="total_${periodo[0]}_0${index + 1}">00:00</div>
+                        <div class="container-periodo-dia">
+                            <div class="coluna-dias-responsivo cor-${dia[0]}">${dia[1]}</div>
+                            <div class="intervalo-hora">
+                                <div id="inicio_${periodo[0]}_0${index + 1}">00:00</div>
+                                <div id="fim_${periodo[0]}_0${index + 1}">00:00</div>
                             </div>
-                        `;
+                            <div id="texto_${periodo[0]}_0${index + 1}" class="texto-nota cor-${dia[0]}"></div>
+                            <div class="total-periodo-dia" id="total_${periodo[0]}_0${index + 1}">00:00</div>
+                        </div>`;
             }).join('')}
-                </div>
-            `;
+            </div>`;
         }).join('');
 
-
         const total = document.querySelector('#total-por-dia')
-
         total.innerHTML = dias.map((dia, index) => {
             return `<div class="container-total">
                         <div class="coluna-dias-responsivo cor-${dia[0]}">${dia[1]}</div>
